@@ -19,11 +19,9 @@ class UserList extends Component {
       <div className={s.container}>
         <h1>User list</h1>
         <ul className={s.list}>
-          {this.state.users.map((user) => {
-            return (
-              <li key={user._id}>{`${user.name.first} ${user.name.last}`}</li>
-            );
-          })}
+          {this.state.users.map((user) => (
+            <li key={user._id}>{`${user.name.first} ${user.name.last}`}</li>
+          ))}
         </ul>
       </div>
     );
