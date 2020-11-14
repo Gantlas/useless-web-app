@@ -20,31 +20,33 @@ class App extends Component {
     user: null,
   };
 
-  login = async () => {
-    const response = await firebase
-      .auth()
-      .signInWithEmailAndPassword(this.state.email, this.state.password);
-
-    this.setState({ user: response.user, email: "", password: "" });
-  };
-
   componentDidMount = () => {
-    firebase.initializeApp(firebaseConfig); //настроили приватный канал общения "клиент <=> сервер"
+    firebase.initializeApp(firebaseConfig);
+    console.log(firebase);
   };
 
   componentDidUpdate = (prevProps, prevState) => {
     if (
       prevState.password.length === 5 &&
       this.state.password.length === 6 &&
-      this.state.email
+      this.state.email.length !== ""
     ) {
       this.login();
     }
   };
 
+  login = async () => {
+    const response = await firebase
+      .auth()
+      .signInWithEmailAndPassword(this.state.email, this.state.password);
+    this.setState({ user: response.user, email: "", password: "" });
+  };
+
   render() {
+    console.log("render");
     return (
       <div className="App">
+        {this.state.user && <span>Hello {this.state.user.uid}</span>}
         <input
           type="text"
           placeholder="email"
@@ -57,8 +59,7 @@ class App extends Component {
           onChange={(event) => this.setState({ password: event.target.value })}
           value={this.state.password}
         />
-        <button onClick={this.login}>Sign in</button>
-        {this.state.user && <p>Hello {this.state.user.uid}</p>}
+        <button onClick={this.login}>Login</button>
       </div>
     );
   }
