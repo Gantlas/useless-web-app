@@ -1,37 +1,41 @@
-import axios from 'axios';
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
-import { UserCard } from '../../components';
-import './styles.css';
+import { UserCard } from "../../components";
+import { getUsers } from "../../actions";
+import "./styles.css";
 
 class Users extends Component {
-
-  state = {
-    users: []
-  }
-
   componentDidMount = async () => {
-    const response = await axios.get('http://localhost:3001/users');
-    this.setState({users: response.data });
-  }
+    this.props.getUsers();
+  };
 
-  render () {
-    console.log(this.props, this.state);
+  render() {
     return (
       <div className="page page-users">
         <h1>USERS</h1>
-        {this.state.users.map((user) => {
+        {this.props.users.map((user) => {
           return (
             <Link to={`/users/${user.index}`} key={user._id}>
               <UserCard picture={user.picture} name={user.name} />
             </Link>
           );
         })}
-        
       </div>
     );
   }
 }
 
-export default Users;
+const mapStateToProps = (state) => {
+  return {
+    users: state.users.users,
+    errors: state.users.errors,
+  };
+};
+
+const actions = {
+  getUsers,
+};
+
+export default connect(mapStateToProps, actions)(Users);
