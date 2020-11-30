@@ -1,12 +1,12 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import { createStore, applyMiddleware, compose } from 'redux';
-import thunk from 'redux-thunk';
+import React from "react";
+import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import { createStore, applyMiddleware, compose } from "redux";
+import thunk from "redux-thunk";
 
-import reducer from './reducers';
-import Router from './navigation/Router';
-import './index.css';
+import reducer from "./reducers";
+import Router from "./navigation/Router";
+import "./index.css";
 
 /**
  * 1) createStore как обычно выполняется и создает стор, но при этом также он отвечает
@@ -16,7 +16,7 @@ import './index.css';
  * Для подключения middleware нужно вызвать функцию applyMiddleware и передать ее вторым
  * параметром после редьюсера при создании стора. На compose и большую строку с window. ...
  * обращать внимания не нужно - эта строка нужна для того, чтобы работал redux-devtools в хроме
- * 
+ *
  * по итогу без всяких девтулз, все должно выглядеть так:
  * const store = createStore(
  *    reducer,
@@ -27,8 +27,8 @@ import './index.css';
 const store = createStore(
   reducer,
   compose(
-    applyMiddleware(thunk),
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    applyMiddleware(thunk)
+    // window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
   )
 );
 
@@ -38,5 +38,5 @@ ReactDOM.render(
       <Router />
     </Provider>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
